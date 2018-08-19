@@ -1,5 +1,5 @@
 {
-  "name": "rx-tween",
+  "name": "@jkuri/rx-tween",
   "version": "0.1.0",
   "description": "RxJS based Tween engine for easy animations",
   "main": "dist/tween.cjs.js",
@@ -47,5 +47,8 @@
   },
   "dependencies": {
     "rxjs": "^6.2.2"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

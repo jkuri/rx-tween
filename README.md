@@ -3,7 +3,7 @@
 JavaScript tweening engine for easy animations based on RxJS.
 
 ```ts
-import { Tween, easingElasticOut } from 'rx-tween';
+import { Tween, easingElasticOut } from '@jkuri/rx-tween';
 
 const ball = document.querySelector('.ball');
 
@@ -24,13 +24,13 @@ const tween = new Tween({ x: 100, y: 100 })
 ## Installation
 
 ```sh
-npm install rx-tween --save
+npm install @jkuri/rx-tween --save
 ```
 
 or if you are using `yarn`,
 
 ```sh
-yarn add rx-tween --save
+yarn add @jkuri/rx-tween --save
 ```
 
 ## Run example
