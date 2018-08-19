@@ -1,5 +1,4 @@
-import { Tween } from '../../src/index';
-import { easingElasticOut } from '../../src/easing-functions';
+import { Tween, easingElasticOut } from '../../src';
 
 const ball = document.querySelector('.ball') as HTMLElement;
 
