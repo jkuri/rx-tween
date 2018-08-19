@@ -5,15 +5,16 @@ import {
   interval,
   defer,
   asyncScheduler,
-  Scheduler
+  Scheduler,
+  timer
 } from 'rxjs';
-import { map, takeWhile, delay } from 'rxjs/operators';
+import { map, takeWhile, delayWhen } from 'rxjs/operators';
 import { easingLinear } from './easing-functions';
 
 export class Tween {
   easingFunc: (t: number) => number;
-  initialValue: number;
-  toValue: number;
+  initialValue: number | { [key: string]: number };
+  toValue: number | { [key: string]: number };
   ms: number;
   msDelay: number;
   sub: Subscription;
@@ -24,7 +25,7 @@ export class Tween {
   private onStopCallback;
   private startFired;
 
-  constructor(initialValue: number) {
+  constructor(initialValue: number | { [key: string]: number }) {
     this.initialValue = initialValue;
     this.easingFunc = easingLinear;
     this.ms = 1000;
@@ -36,7 +37,7 @@ export class Tween {
   start(): Tween {
     this.sub = this.duration(this.ms)
       .pipe(
-        delay(this.msDelay),
+        delayWhen(() => timer(this.msDelay)),
         map(t => {
           if (typeof this.onStartCallback === 'function' && !this.startFired) {
             this.startFired = true;
@@ -75,7 +76,7 @@ export class Tween {
     return this;
   }
 
-  to(toValue: number, ms: number = 1000): Tween {
+  to(toValue: number | { [key: string]: number }, ms: number = 1000): Tween {
     this.ms = ms;
     this.toValue = toValue;
 
@@ -84,6 +85,11 @@ export class Tween {
 
   delay(msDelay: number): Tween {
     this.msDelay = msDelay;
+    return this;
+  }
+
+  easing(easingFunc: (t: number) => number): Tween {
+    this.easingFunc = easingFunc;
     return this;
   }
 
@@ -109,7 +115,16 @@ export class Tween {
 
   private distance() {
     return (t: number) => {
-      return this.initialValue + (this.toValue - this.initialValue) * t;
+      if (typeof this.initialValue === 'number' &&
+        typeof this.toValue === 'number') {
+        return this.initialValue + (this.toValue - this.initialValue) * t;
+      } else {
+        return Object.keys(this.initialValue).reduce((prev, key) => {
+          const val = this.initialValue[key] + (this.toValue[key] -
+            this.initialValue[key]) * t;
+          return Object.assign({}, prev, { [key]: val });
+        }, {});
+      }
     };
   }
 
@@ -136,15 +151,3 @@ export class Tween {
     });
   }
 }
-
-// const tween = new Tween(500)
-//   .delay(500)
-//   .to(1000, 3000)
-//   .onStart(() => console.log('Start!'))
-//   .onComplete(() => console.log('Completed!'))
-//   .onStop(() => console.log('Stopped!'))
-//   .onUpdate(val => console.log(val));
-
-// tween.start();
-
-// setTimeout(() => tween.stop(), 1500);
