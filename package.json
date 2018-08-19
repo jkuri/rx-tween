@@ -1,0 +1,31 @@
+{
+  "name": "rx-tween",
+  "version": "0.1.0",
+  "description": "RxJS based Tween engine for easy animations",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jkuri/rx-tween.git"
+  },
+  "keywords": [
+    "RxJS",
+    "tween",
+    "engine",
+    "easy",
+    "animations"
+  ],
+  "author": "Jan Kuri <jkuri88@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jkuri/rx-tween/issues"
+  },
+  "homepage": "https://github.com/jkuri/rx-tween#readme",
+  "devDependencies": {
+    "rxjs": "^6.2.2",
+    "tslint": "^5.11.0",
+    "typescript": "^3.0.1"
+  }
+}
