@@ -55,10 +55,10 @@ export class Tween {
       }, err => {
         console.error(err);
       }, () => {
-        this.sub.unsubscribe();
         if (typeof this.onCompleteCallback === 'function') {
           this.onCompleteCallback();
         }
+        this.sub.unsubscribe();
       });
 
     return this;
