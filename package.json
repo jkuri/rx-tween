@@ -1,6 +1,6 @@
 {
   "name": "@jkuri/rx-tween",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "RxJS based Tween engine for easy animations",
   "main": "dist/tween.cjs.js",
   "module": "dist/tween.esm.js",

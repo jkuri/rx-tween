@@ -19,11 +19,11 @@ export class Tween {
   msDelay: number;
   sub: Subscription;
 
-  private onStartCallback;
-  private onUpdateCallback;
-  private onCompleteCallback;
-  private onStopCallback;
-  private startFired;
+  private onStartCallback: Function;
+  private onUpdateCallback: Function;
+  private onCompleteCallback: Function;
+  private onStopCallback: Function;
+  private startFired: boolean;
 
   constructor(initialValue: number | { [key: string]: number }) {
     this.initialValue = initialValue;
@@ -35,10 +35,10 @@ export class Tween {
   }
 
   start(): Tween {
-    this.sub = this.duration(this.ms)
+    this.sub = this.dur(this.ms)
       .pipe(
         delayWhen(() => timer(this.msDelay)),
-        map(t => {
+        map((t: any) => {
           if (typeof this.onStartCallback === 'function' && !this.startFired) {
             this.startFired = true;
             this.onStartCallback();
@@ -52,7 +52,7 @@ export class Tween {
         if (typeof this.onUpdateCallback === 'function') {
           this.onUpdateCallback(frame);
         }
-      }, err => {
+      }, (err: any) => {
         console.error(err);
       }, () => {
         if (typeof this.onCompleteCallback === 'function') {
@@ -85,6 +85,11 @@ export class Tween {
 
   delay(msDelay: number): Tween {
     this.msDelay = msDelay;
+    return this;
+  }
+
+  duration(ms: number): Tween {
+    this.ms = ms;
     return this;
   }
 
@@ -128,15 +133,15 @@ export class Tween {
     };
   }
 
-  private duration(ms: number): Observable<number> {
+  private dur(ms: number): Observable<number> {
     const s = typeof requestAnimationFrame === 'undefined'
       ? asyncScheduler
       : animationFrameScheduler;
 
     return this.elapsedTime(s)
       .pipe(
-        map(ems => ems / ms),
-        takeWhile(t => t <= 1)
+        map((ems: number) => ems / ms),
+        takeWhile((t: number) => t <= 1)
       );
   }
 
